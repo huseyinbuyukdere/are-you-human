@@ -1,19 +1,133 @@
 (function () {
   const languages = {
     en: {
-      question: "Select all images with a traffic light",
+      questions: [
+        "Select all images with a traffic light",
+        "Select all images with a car",
+        "Select all images with a tree",
+      ],
       nextButton: "Next",
       successMessage: "Verification complete!",
+      errorMessages: [
+        "Please try again.",
+        "Incorrect selection, try again.",
+        "That's not right, please select the correct images.",
+      ],
     },
     tr: {
-      question: "Trafik lambası olan tüm resimleri seçin",
+      questions: [
+        "Trafik lambası olan tüm resimleri seçin",
+        "Araba olan tüm resimleri seçin",
+        "Ağaç olan tüm resimleri seçin",
+      ],
       nextButton: "İleri",
       successMessage: "Doğrulama tamamlandı!",
+      errorMessages: [
+        "Lütfen tekrar deneyin.",
+        "Yanlış seçim, tekrar deneyin.",
+        "Bu doğru değil, lütfen doğru resimleri seçin.",
+      ],
     },
     // Add more languages as needed
   };
 
   const defaultLanguage = "en";
+
+  const images = [
+    {
+      url: "https://via.placeholder.com/150?text=Image+1",
+      correct: false,
+      id: "1",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+2",
+      correct: true,
+      id: "2",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+3",
+      correct: false,
+      id: "3",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+4",
+      correct: true,
+      id: "4",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+5",
+      correct: false,
+      id: "5",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+6",
+      correct: true,
+      id: "6",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+7",
+      correct: false,
+      id: "7",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+8",
+      correct: true,
+      id: "8",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+9",
+      correct: false,
+      id: "9",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+10",
+      correct: true,
+      id: "10",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+11",
+      correct: false,
+      id: "11",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+12",
+      correct: true,
+      id: "12",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+13",
+      correct: false,
+      id: "13",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+14",
+      correct: true,
+      id: "14",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+15",
+      correct: false,
+      id: "15",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+16",
+      correct: true,
+      id: "16",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+17",
+      correct: false,
+      id: "17",
+    },
+    {
+      url: "https://via.placeholder.com/150?text=Image+18",
+      correct: true,
+      id: "18",
+    },
+  ];
+
+  let currentSet = 0;
+  const imagesPerSet = 6;
 
   // Function to get query parameters from the current script's URL
   function getScriptParams() {
@@ -93,7 +207,19 @@
     container.style.display = "flex";
     container.style.flexDirection = "column";
     container.style.gap = "12px";
+    container.style.width = "80%"; // Updated for responsiveness
+    container.style.maxWidth = "500px"; // Updated for desktop view
+    container.style.maxHeight = "80%"; // Added for responsiveness
+    container.style.overflowY = "auto"; // Added for responsiveness
     return container;
+  }
+
+  function showError(errorElement) {
+    const errorIndex = Math.floor(
+      Math.random() * languages[lang].errorMessages.length
+    );
+    const errorMessage = languages[lang].errorMessages[errorIndex];
+    errorElement.innerText = errorMessage;
   }
 
   function createCaptchaElement() {
@@ -107,32 +233,88 @@
     const container = createContainer();
 
     const question = document.createElement("p");
-    question.innerText = languages[lang].question;
+    question.innerText =
+      languages[lang].questions[currentSet % languages[lang].questions.length];
     question.style.color = "black";
     container.appendChild(question);
 
     const imagesContainer = document.createElement("div");
-    imagesContainer.style.display = "flex";
+    imagesContainer.style.display = "grid";
+    imagesContainer.style.gridTemplateColumns =
+      "repeat(auto-fill, minmax(100px, 1fr))";
     imagesContainer.style.gap = "10px";
-    // Placeholder for images
-    for (let i = 0; i < 3; i++) {
+
+    const startIndex = currentSet * imagesPerSet;
+    const endIndex = startIndex + imagesPerSet;
+    const currentImages = images.slice(startIndex, endIndex);
+
+    currentImages.forEach((image) => {
+      const imgWrapper = document.createElement("div");
+      imgWrapper.style.position = "relative";
+      imgWrapper.style.width = "100%";
+      imgWrapper.style.paddingBottom = "100%"; // Maintains aspect ratio
+      imgWrapper.style.overflow = "hidden";
+      imgWrapper.style.boxSizing = "border-box";
+
       const img = document.createElement("img");
-      img.src = `https://via.placeholder.com/100?text=${i + 1}`;
+      img.src = image.url;
+      img.id = image.id;
+      img.style.position = "absolute";
+      img.style.top = "0";
+      img.style.left = "0";
+      img.style.width = "100%";
+      img.style.height = "100%";
+      img.style.objectFit = "cover";
       img.style.cursor = "pointer";
-      img.onclick = () => img.classList.toggle("selected");
-      imagesContainer.appendChild(img);
-    }
+      img.onclick = () => {
+        img.classList.toggle("selected");
+        if (img.classList.contains("selected")) {
+          img.style.border = "2px solid green";
+          img.style.opacity = "0.6";
+        } else {
+          img.style.border = "none";
+          img.style.opacity = "1";
+        }
+      };
+
+      imgWrapper.appendChild(img);
+      imagesContainer.appendChild(imgWrapper);
+    });
     container.appendChild(imagesContainer);
+
+    const errorElement = document.createElement("p");
+    errorElement.style.color = "red";
+    container.appendChild(errorElement);
 
     const nextButton = document.createElement("button");
     nextButton.innerText = languages[lang].nextButton;
     nextButton.onclick = () => {
-      alert(languages[lang].successMessage);
-      if (overlay.parentNode) {
-        overlay.parentNode.removeChild(overlay);
-      }
-      if (typeof window.areYouHumanCallback === "function") {
-        window.areYouHumanCallback();
+      const selectedImages = Array.from(
+        imagesContainer.getElementsByClassName("selected")
+      );
+      const correctSelection = selectedImages.every((img) => {
+        return currentImages.find(
+          (image) => image.id === img.id && image.correct
+        );
+      });
+
+      if (correctSelection) {
+        if (overlay.parentNode) {
+          overlay.parentNode.removeChild(overlay);
+        }
+        currentSet++;
+        if (currentSet * imagesPerSet < images.length) {
+          createCaptchaElement();
+        } else {
+          alert(languages[lang].successMessage);
+          if (typeof window.areYouHumanCallback === "function") {
+            window.areYouHumanCallback();
+          }
+          // Reset currentSet for future calls
+          currentSet = 0;
+        }
+      } else {
+        showError(errorElement);
       }
     };
     container.appendChild(nextButton);
