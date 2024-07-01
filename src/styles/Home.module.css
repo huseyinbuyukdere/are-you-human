@@ -1,10 +1,218 @@
 .main {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6rem;
+  flex-direction: row;
+  /* Değişiklik: resimleri ve metinleri yatay olarak hizalar */
+  align-items: flex-start;
   min-height: 100vh;
+  padding: 0 0.5rem;
+  position: relative;
+  /* Add this to allow absolute positioning of child elements */
+}
+
+.mainContainer {
+  /* display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  position: relative; */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.topSection {
+  /* display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  min-height: 100vh; */
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  position: relative;
+}
+
+.readmeSection {
+  padding: 2rem;
+  background-color: #f8f8f8;
+}
+
+.readmeContent {
+  max-width: 900px;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.readmeContent h1,
+.readmeContent h2,
+.readmeContent h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.readmeContent ul {
+  padding-left: 1.5em;
+}
+
+.readmeContent pre {
+  background-color: #f1f1f1;
+  padding: 1em;
+  border-radius: px;
+  overflow-x: auto;
+}
+
+.readmeContent code {
+  font-family: monospace;
+  background-color: #f1f1f1;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+
+
+
+.container {
+  display: flex;
+  justify-content: center;
+  /* Yatay olarak ortalar */
+  align-items: center;
+  /* Dikey olarak ortalar */
+  height: 100vh;
+  /* Tam ekran yüksekliği */
+  padding: 20px;
+  /* Ekran kenarlarından boşluk */
+  box-sizing: border-box;
+
+}
+
+.imageContainer {
+  flex: 0 0 28%;
+  width: 25vw;
+  height: 100vh;
+  position: relative;
+}
+
+.topImage {
+  margin-left: 25px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+}
+
+.areYouHumanButton {
+  margin-left: 500px;
+  margin-right: 500px;
+  margin-top: 35px;
+  position: relative;
+  z-index: 1;
+  padding: 15px 23px;
+  background-color: #0070f3;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  /* Add some space between button and icons */
+}
+
+.socialMediaIcons {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  /* Center the icons horizontally */
+}
+
+.socialMediaIcons a {
+  margin-top: 5px;
+  color: black;
+  font-size: 24px;
+  text-decoration: none;
+}
+
+
+.areYouHumanButton:hover {
+  background-color: #a9aca6;
+  /* Hover durumunda arka plan rengi değişimi */
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  /* Metin ve diğer içerik için alan açar */
+}
+
+.readmeSection {
+  margin-top: 2rem;
+  padding: 1rem;
+  max-height: 500px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.readmeContent {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.readmeContent h1,
+.readmeContent h2,
+.readmeContent h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.readmeContent ul {
+  padding-left: 1.5em;
+}
+
+.readmeContent pre {
+  background-color: #f4f4f4;
+  padding: 1em;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.readmeContent code {
+  font-family: monospace;
+  background-color: #f4f4f4;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+
+
+
+.imageText {
+  text-align: justify;
+  margin-top: 280px;
+  max-width: 850px;
+  /* Üstten boşluk */
+  font-size: 22px;
+  color: rgb(26, 25, 25);
+  z-index: 1;
+}
+
+.languageSelector {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.languageSelector select {
+  padding: 5px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  color: black;
 }
 
 .description {
@@ -107,6 +315,7 @@
 .logo {
   position: relative;
 }
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
@@ -178,11 +387,9 @@
     border-radius: 0;
     border: none;
     border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--background-start-rgb), 1),
-      rgba(var(--callout-rgb), 0.5)
-    );
+    background: linear-gradient(to bottom,
+        rgba(var(--background-start-rgb), 1),
+        rgba(var(--callout-rgb), 0.5));
     background-clip: padding-box;
     backdrop-filter: blur(24px);
   }
@@ -193,11 +400,9 @@
     inset: auto 0 0;
     padding: 2rem;
     height: 200px;
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgb(var(--background-end-rgb)) 40%
-    );
+    background: linear-gradient(to bottom,
+        transparent 0%,
+        rgb(var(--background-end-rgb)) 40%);
     z-index: 1;
   }
 }
@@ -223,6 +428,7 @@
   from {
     transform: rotate(360deg);
   }
+
   to {
     transform: rotate(0deg);
   }
