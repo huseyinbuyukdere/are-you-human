@@ -2,21 +2,9 @@ import React, { useState } from 'react';
 import styles from "@/styles/Home.module.css";
 import Head from "next/head";
 import Image from "next/image";
-import { inter, languages, translations } from './constants';
+import { inter, translations } from '../constants';
 import ReadmeContent from '@/components/ReadmeContent';
-
-// Language selector component
-const LanguageSelector = ({ currentLang, onLanguageChange }) => (
-  <div className={styles.languageSelector}>
-    <select value={currentLang} onChange={(e) => onLanguageChange(e.target.value)}>
-      {languages.map((lang) => (
-        <option key={lang.code} value={lang.code}>
-          {lang.name}
-        </option>
-      ))}
-    </select>
-  </div>
-);
+import LanguageSelector from '@/components/LanguageSelector';
 
 export default function Home() {
   const [currentLang, setCurrentLang] = useState('en');
